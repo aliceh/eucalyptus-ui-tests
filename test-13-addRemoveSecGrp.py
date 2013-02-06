@@ -35,7 +35,7 @@ class TestVerifyAddRemSecGrp(unittest.TestCase):
         driver.find_element_by_id("sgroup-name").clear()
         driver.find_element_by_id("sgroup-name").send_keys("a-selenium-test-group")
         driver.find_element_by_id("sgroup-description").clear()
-        driver.find_element_by_id("sgroup-description").send_keys("Testing the ability to create, modify, and delete a security group")
+        driver.find_element_by_id("sgroup-description").send_keys("a simple test to create, modify, and delete a security group")
         driver.find_element_by_id("sgroup-add-btn").click()
         time.sleep(10)
         if "selenium-test-group" not in driver.find_element_by_css_selector("BODY").text:
