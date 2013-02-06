@@ -38,9 +38,9 @@ class TestVerifyAddRemSecGrp(unittest.TestCase):
         driver.find_element_by_id("sgroup-description").send_keys("a simple test to create, modify, and delete a security group")
         driver.find_element_by_id("sgroup-add-btn").click()
         time.sleep(10)
-        if "selenium-test-group" not in driver.find_element_by_css_selector("BODY").text:
+        if "a-selenium-test-group" not in driver.find_element_by_css_selector("BODY").text:
             self.verificationErrors.append("Unable to create security group")
-        driver.find_element_by_css_selector("td.checkbox-cell.sorting_1 > input[type=\"checkbox\"]").click()
+        driver.find_element_by_xpath("//table[@id='keys']/tbody/tr[2]/td/input").click()
         driver.find_element_by_id("more-actions-sgroups").click()
         for i in range(self.retry):
             if self.is_element_present(By.LINK_TEXT, "Delete"):
