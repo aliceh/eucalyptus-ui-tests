@@ -26,7 +26,7 @@ class TestKeypairs(unittest.TestCase):
 
     def test_keypairs(self):
         self.passed = False
-        keyname = "selenium-test-key"
+        keyname = "a-selenium-test-key"
         driver = self.driver
         console_login(driver)
         click_dashboard(driver)
