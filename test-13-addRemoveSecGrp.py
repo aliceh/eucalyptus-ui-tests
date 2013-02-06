@@ -10,7 +10,10 @@ from passfail import SauceRest
 
 class TestVerifyAddRemSecGrp(unittest.TestCase):
     def setUp(self):
-        desired_capabilities = webdriver.DesiredCapabilities.FIREFOX
+        if default_capabilities['browser'].lower() == 'chrome':
+            desired_capabilities = webdriver.DesiredCapabilities.CHROME
+        else:
+            desired_capabilities = webdriver.DesiredCapabilities.FIREFOX
         desired_capabilities["name"] = "Add/Remove Security Group"
         desired_capabilities['version'] = default_capabilities['version']
         desired_capabilities['platform'] = default_capabilities['platform']
@@ -30,7 +33,7 @@ class TestVerifyAddRemSecGrp(unittest.TestCase):
         click_secgroup(driver)
         driver.find_element_by_id("table-sgroups-new").click()
         driver.find_element_by_id("sgroup-name").clear()
-        driver.find_element_by_id("sgroup-name").send_keys("selenium-test-group")
+        driver.find_element_by_id("sgroup-name").send_keys("a-selenium-test-group")
         driver.find_element_by_id("sgroup-description").clear()
         driver.find_element_by_id("sgroup-description").send_keys("Testing the ability to create, modify, and delete a security group")
         driver.find_element_by_id("sgroup-add-btn").click()

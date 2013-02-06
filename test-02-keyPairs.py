@@ -10,7 +10,10 @@ from passfail import SauceRest
 
 class TestKeypairs(unittest.TestCase):
     def setUp(self):
-        desired_capabilities = webdriver.DesiredCapabilities.FIREFOX
+        if default_capabilities['browser'].lower() == 'chrome':
+            desired_capabilities = webdriver.DesiredCapabilities.CHROME
+        else:
+            desired_capabilities = webdriver.DesiredCapabilities.FIREFOX
         desired_capabilities["name"] = "Add and Remove Key Pair"
         desired_capabilities['version'] = default_capabilities['version']
         desired_capabilities['platform'] = default_capabilities['platform']

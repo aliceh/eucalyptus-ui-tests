@@ -11,7 +11,10 @@ from passfail import SauceRest
 
 class TestVerifyDeleteVolume(unittest.TestCase):
     def setUp(self):
-        desired_capabilities = webdriver.DesiredCapabilities.FIREFOX
+        if default_capabilities['browser'].lower() == 'chrome':
+            desired_capabilities = webdriver.DesiredCapabilities.CHROME
+        else:
+            desired_capabilities = webdriver.DesiredCapabilities.FIREFOX
         desired_capabilities["name"] = "Delete Volume"
         desired_capabilities['version'] = default_capabilities['version']
         desired_capabilities['platform'] = default_capabilities['platform']
