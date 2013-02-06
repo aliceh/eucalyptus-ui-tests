@@ -1,5 +1,9 @@
 from settings import *
-import os, pexpect
+import os, pexpect, sys
+
+if os.path.exists("eucarc"):
+    print "We appear to already have credentials - skipping this step"
+    sys.exit(0)
 
 #SSH code obtained from http://linux.byexamples.com/archives/346/python-how-to-access-ssh-with-pexpect/
 
