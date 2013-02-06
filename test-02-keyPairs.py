@@ -39,7 +39,10 @@ class TestKeypairs(unittest.TestCase):
         if keyname not in driver.find_element_by_css_selector("BODY").text:
             self.verificationErrors.append("Failed to add key pair")
         #Remove keypair
-        driver.find_element_by_xpath("//table[@id='keys']/tbody/tr[2]/td/input").click()
+        if self.is_element_present(By.XPATH, "//table[@id='keys']/tbody/tr[2]/td/input"):
+            driver.find_element_by_xpath("//table[@id='keys']/tbody/tr[2]/td/input").click()
+        else:
+            driver.find_element_by_xpath("//table[@id='keys']/tbody/tr[1]/td/input").click()
         driver.find_element_by_id("more-actions-keys").click()
         driver.find_element_by_link_text("Delete").click()
         driver.find_element_by_css_selector("body").click()
