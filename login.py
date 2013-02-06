@@ -1,7 +1,7 @@
 from settings import *
 
 def console_login(driver):
-  driver.get("http://" + console_ip + ":" + console_port + "/")
+  driver.get("https://" + console_ip + ":" + console_port + "/")
   driver.find_element_by_id("account").clear()
   driver.find_element_by_id("account").send_keys(console_account)
   driver.find_element_by_id("username").clear()
