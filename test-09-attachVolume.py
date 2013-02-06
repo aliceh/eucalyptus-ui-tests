@@ -55,6 +55,7 @@ class TestVerifyAttachVolume(unittest.TestCase):
         click_dashboard(driver)
         click_volumes(driver)
         Select(driver.find_element_by_id("vol_state-selector")).select_by_visible_text("Attached volumes")
+        time.sleep(3)
         driver.find_element_by_css_selector("body").click()
         try: self.assertRegexpMatches(driver.find_element_by_css_selector("BODY").text, r"^[\s\S]*1 volumes found[\s\S]*$")
         except AssertionError as e: self.verificationErrors.append(str(e))
