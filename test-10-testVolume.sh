@@ -1,7 +1,7 @@
 #!/bin/sh
 
 source eucarc
-ip=`euca-describe-instances  |grep INSTANCE  |awk '{print $4}' |head -1`
+ip=`euca-describe-instances  |grep INSTANCE |grep running  |awk '{print $4}' |head -1`
 ssh-keyscan $ip >> ~/.ssh/known_hosts
 output=`ssh -i selenium.key root@$ip mkfs.ext4 /dev/vdb`
 if [ $? = "0" ]; then
