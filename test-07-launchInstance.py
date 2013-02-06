@@ -36,6 +36,7 @@ class TestVerifyLaunchInstance(unittest.TestCase):
         driver.find_element_by_id("launch-wizard-buttons-type-next").click()
         driver.find_element_by_id("launch-wizard-buttons-security-launch").click()
         #Verify instance is pending
+        time.sleep(3)
         Select(driver.find_element_by_id("inst_state-selector")).select_by_visible_text("Pending instances")
         driver.find_element_by_css_selector("body").click()
         if "0 instances found" in driver.find_element_by_css_selector("BODY").text:
