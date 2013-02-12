@@ -7,19 +7,13 @@ from settings import *
 from login import *
 from navigation import *
 from passfail import SauceRest
+from capabilities import SelSetup
 
 class TestVerifyCreateVolume(unittest.TestCase):
     def setUp(self):
-        if default_capabilities['browser'].lower() == 'chrome':
-            desired_capabilities = webdriver.DesiredCapabilities.CHROME
-        else:
-            desired_capabilities = webdriver.DesiredCapabilities.FIREFOX
-        desired_capabilities["name"] = "Create Volume"
-        desired_capabilities['version'] = default_capabilities['version']
-        desired_capabilities['platform'] = default_capabilities['platform']
-        desired_capabilities['screen-resolution'] = default_capabilities['screen-resolution']
-        desired_capabilities['build'] = default_capabilities['build']
-        self.driver = webdriver.Remote(desired_capabilities=desired_capabilities,command_executor=command_executor)
+        sel_setup = SelSetup()
+        sel_setup.desired_capabilities["name"] = "Create Volume"
+        self.driver = webdriver.Remote(desired_capabilities=sel_setup.desired_capabilities,command_executor=command_executor)
         self.driver.implicitly_wait(30)
         self.verificationErrors = []
         self.accept_next_alert = True

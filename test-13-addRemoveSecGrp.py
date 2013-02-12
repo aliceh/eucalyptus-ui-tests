@@ -7,19 +7,13 @@ from settings import *
 from login import *
 from navigation import *
 from passfail import SauceRest
+from capabilities import SelSetup
 
 class TestVerifyAddRemSecGrp(unittest.TestCase):
     def setUp(self):
-        if default_capabilities['browser'].lower() == 'chrome':
-            desired_capabilities = webdriver.DesiredCapabilities.CHROME
-        else:
-            desired_capabilities = webdriver.DesiredCapabilities.FIREFOX
-        desired_capabilities["name"] = "Add/Remove Security Group"
-        desired_capabilities['version'] = default_capabilities['version']
-        desired_capabilities['platform'] = default_capabilities['platform']
-        desired_capabilities['screen-resolution'] = default_capabilities['screen-resolution']
-        desired_capabilities['build'] = default_capabilities['build']
-        self.driver = webdriver.Remote(desired_capabilities=desired_capabilities,command_executor=command_executor)
+        sel_setup = SelSetup()
+        sel_setup.desired_capabilities["name"] = "Add/Remove Security Group"
+        self.driver = webdriver.Remote(desired_capabilities=sel_setup.desired_capabilities,command_executor=command_executor)
         self.driver.implicitly_wait(30)
         self.verificationErrors = []
         self.accept_next_alert = True
@@ -40,7 +34,11 @@ class TestVerifyAddRemSecGrp(unittest.TestCase):
         time.sleep(10)
         if "a-selenium-test-group" not in driver.find_element_by_css_selector("BODY").text:
             self.verificationErrors.append("Unable to create security group")
-        driver.find_element_by_xpath("//table[@id='keys']/tbody/tr[2]/td/input").click()
+        text = driver.find_element_by_xpath("//table[@id='sgroups']/tbody/tr/td[2]").text
+        if (text == "a-selenium-test-group"):
+            driver.find_element_by_xpath("//table[@id='sgroups']/tbody/tr/td/input").click()
+        else:
+            driver.find_element_by_xpath("//table[@id='sgroups']/tbody/tr[2]/td/input").click()
         driver.find_element_by_id("more-actions-sgroups").click()
         for i in range(self.retry):
             if self.is_element_present(By.LINK_TEXT, "Delete"):

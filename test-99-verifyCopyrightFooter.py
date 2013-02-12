@@ -7,24 +7,19 @@ from settings import *
 from login import *
 from navigation import *
 from passfail import SauceRest
+from capabilities import SelSetup
 
 class TestVerifyCopyrightFooter(unittest.TestCase):
     def setUp(self):
-        if default_capabilities['browser'].lower() == 'chrome':
-            desired_capabilities = webdriver.DesiredCapabilities.CHROME
-        else:
-            desired_capabilities = webdriver.DesiredCapabilities.FIREFOX
-        desired_capabilities["name"] = "Verify Copyright Footer"
-        desired_capabilities['version'] = default_capabilities['version']
-        desired_capabilities['platform'] = default_capabilities['platform']
-        desired_capabilities['screen-resolution'] = default_capabilities['screen-resolution']
-        desired_capabilities['build'] = default_capabilities['build']
-        self.driver = webdriver.Remote(desired_capabilities=desired_capabilities,command_executor=command_executor)
+        sel_setup = SelSetup()
+        sel_setup.desired_capabilities["name"] = "Verify Copyright Footer"
+        self.driver = webdriver.Remote(desired_capabilities=sel_setup.desired_capabilities,command_executor=command_executor)
         self.driver.implicitly_wait(30)
         self.verificationErrors = []
         self.accept_next_alert = True
 
     def test_verify_copyright_footer(self):
+        self.passed = False
         driver = self.driver
         console_login(driver)
         click_dashboard(driver)
@@ -33,6 +28,8 @@ class TestVerifyCopyrightFooter(unittest.TestCase):
         year = str(now.year)
         try: self.assertRegexpMatches(driver.find_element_by_css_selector("BODY").text, "2012-" + year)
         except AssertionError as e: self.verificationErrors.append("Copyright footer does not appear to be up to date")
+        if [] == self.verificationErrors:
+            self.passed = True
 
     def is_element_present(self, how, what):
         try: self.driver.find_element(by=how, value=what)
@@ -54,7 +51,7 @@ class TestVerifyCopyrightFooter(unittest.TestCase):
                                username=sauce_username,
                                password=sauce_accesskey,
                               )
-        sauce_rest.report_pass_fail(self.driver.session_id,{'passed': [] == self.verificationErrors})
+        sauce_rest.report_pass_fail(self.driver.session_id,{'passed': self.passed})
         print("Link to your job: https://saucelabs.com/jobs/%s" % self.driver.session_id)
         self.driver.quit()
         #self.assertEqual([], self.verificationErrors)
